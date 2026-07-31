@@ -3,71 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEON ROOTS 3D - SECURITY PROTOCOL</title>
+    <title>NEON ROOTS 3D - AUTO PILOT</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --p: #00f2ff; --s: #bc13fe; --a: #ff007a; --bg: #050510; }
         body { margin: 0; background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; overflow: hidden; touch-action: none; }
         canvas { display: block; cursor: crosshair; }
         .hidden { display: none !important; }
-        .overlay { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; background: rgba(5, 5, 16, 0.9); backdrop-filter: blur(8px); z-index: 100; }
-        .glass-card { background: rgba(20, 20, 40, 0.85); border: 2px solid var(--p); border-radius: 20px; padding: 40px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 0 30px var(--p); }
-        h1 { font-family: 'Orbitron'; font-size: 2rem; color: var(--p); text-shadow: 0 0 15px var(--p); margin: 0 0 20px; }
-        input { background: rgba(0,0,0,0.5); border: 1px solid var(--s); color: white; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; text-align: center; margin: 10px; width: 120px; font-size: 1.2rem; outline: none; }
-        input:focus { border-color: var(--p); box-shadow: 0 0 10px var(--p); }
-        button { background: linear-gradient(45deg, var(--s), var(--a)); color: white; border: none; padding: 15px 35px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; margin-top: 15px; transition: 0.3s; }
-        button:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--a); }
+        .overlay { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; background: rgba(5, 5, 16, 0.95); backdrop-filter: blur(10px); z-index: 100; }
+        .glass-card { background: rgba(20, 20, 40, 0.85); border: 2px solid var(--p); border-radius: 20px; padding: 30px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 0 30px var(--p); }
+        h1 { font-family: 'Orbitron'; font-size: 2rem; color: var(--p); text-shadow: 0 0 15px var(--p); margin: 0 0 15px; }
+        input { background: rgba(0,0,0,0.5); border: 1px solid var(--s); color: white; padding: 12px; border-radius: 10px; font-family: 'Orbitron'; text-align: center; margin: 10px; width: 140px; font-size: 1.2rem; outline: none; }
+        button { background: linear-gradient(45deg, var(--s), var(--a)); color: white; border: none; padding: 15px 35px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; margin-top: 10px; transition: 0.3s; }
         .hud { position: fixed; top: 20px; width: 100%; display: flex; justify-content: space-around; font-family: 'Orbitron'; color: var(--p); pointer-events: none; z-index: 50; }
-        #math-res { margin-top: 15px; font-weight: bold; height: 30px; }
-        .reveal-btn { background: none; border: 1px solid #fff; font-size: 0.7rem; color: #fff; margin-top: 10px; }
         .solution-text { color: #00ff88; font-size: 0.9rem; margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div class="hud">
-        <div>ENERGY: <span id="score">0</span> / 10</div>
+        <div>ENERGY: <span id="score">0</span> / 20</div>
         <div id="pilot-id">PILOT: -</div>
     </div>
 
-    <!-- Login -->
+    <!-- Login Screen -->
     <div id="ui-login" class="overlay">
         <div class="glass-card">
             <h1>NEON ROOTS 3D</h1>
-            <p style="font-size: 0.9rem; color: #aaa;">เก็บพลังงาน 10 หน่วยเพื่อเข้าสู่ระบบความปลอดภัย</p>
-            <div style="text-align: left; font-size: 0.8rem; margin: 15px 0; border: 1px solid #333; padding: 10px; border-radius: 10px;">
-                <p>👽 <span style="color:var(--p)">NORMAL:</span> +1 Point</p>
-                <p>🛸 <span style="color:var(--s)">DODGER:</span> +1 Point (ขยับซิกแซก)</p>
-                <p>🚨 <span style="color:#fff">DECOY:</span> <span style="color:var(--a)">ยิงโดนหัก -1 Point!</span></p>
+            <p style="font-size: 0.9rem; color: #aaa;">ภารกิจ: เก็บพลังงาน 20 หน่วย</p>
+            <div style="text-align: left; font-size: 0.8rem; margin: 15px 0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; border: 1px solid #333;">
+                <p>🔫 <span style="color:var(--p)">AUTO-FIRE:</span> ยานจะยิงเองอัตโนมัติ</p>
+                <p>🕹️ <span style="color:var(--p)">DRAG:</span> ลากนิ้วเพื่อเล็งเป้าหมาย</p>
+                <p>🚨 <span style="color:var(--a)">DECOY (White):</span> ยิงโดนหัก -1 แต้ม</p>
             </div>
             <input type="text" id="pilotName" placeholder="PILOT_ID" maxlength="10">
             <br>
-            <button onclick="bootGame()">ENGAGE MISSION</button>
+            <button onclick="bootGame()">INITIATE MISSION</button>
         </div>
     </div>
 
-    <!-- Math Hacking Screen -->
+    <!-- Math Screen -->
     <div id="ui-math" class="overlay hidden">
         <div class="glass-card">
             <h1 style="font-size: 1.5rem;">SECURITY OVERRIDE</h1>
-            <p>ถอดรหัสรากที่ n (ความพยายามผิด: <span id="wrong-count">0</span>/3)</p>
+            <p>ถอดรหัสรากที่ n (ผิด: <span id="wrong-count">0</span>/3)</p>
             <div>
                 A: <input id="A" type="number" value="30">
                 n: <input id="n" type="number" value="3">
             </div>
-            <button onclick="genMath()">GENERATE HACK KEY</button>
-            
+            <button onclick="genMath()">GENERATE KEY</button>
             <div id="math-inputs" style="margin:20px 0;"></div>
-            
             <div id="math-actions" class="hidden">
-                <button onclick="checkMath()">VERIFY ACCESS</button>
-                <br>
-                <button id="btn-reveal" class="reveal-btn hidden" onclick="showSolution()">REVEAL SOLUTION</button>
+                <button onclick="checkMath()">VERIFY</button><br>
+                <button id="btn-reveal" style="background:none; border:1px solid #fff; font-size: 0.7rem; margin-top:10px;" class="hidden" onclick="showSolution()">REVEAL SOLUTION</button>
             </div>
-
             <div id="solution-display" class="solution-text hidden"></div>
-            <div id="math-res"></div>
-            <button onclick="location.reload()" style="background:none; border:1px solid white; font-size: 0.8rem;">RESTART</button>
+            <div id="math-res" style="margin-top:10px; font-weight:bold;"></div>
+            <button onclick="location.reload()" style="background:none; border:1px solid white; font-size: 0.7rem; margin-top:20px;">RESTART</button>
         </div>
     </div>
 
@@ -78,12 +70,11 @@
         const ctx = canvas.getContext('2d');
         let w, h, score = 0, gameActive = false;
         let enemies = [], bullets = [], stars = [], particles = [];
-        let gridOffset = 0;
-        const combatYOffset = 100;
+        let lastFireTime = 0, fireRate = 180; // ยิงทุกๆ 180ms
+        let gridOffset = 0, combatYOffset = 100;
 
-        // Math Variables
-        let solutions = [];
-        let wrongAttempts = 0;
+        // Math Logic
+        let solutions = [], wrongAttempts = 0;
 
         function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
         window.onresize = resize;
@@ -93,14 +84,17 @@
 
         const player = { x: w/2, y: h - combatYOffset, targetX: w/2 };
 
-        function fire() {
-            if(!gameActive) return;
-            bullets.push({ x: player.x - 25, y: h - combatYOffset, z: 1 });
-            bullets.push({ x: player.x + 25, y: h - combatYOffset, z: 1 });
+        // ยิงอัตโนมัติ (จะถูกเรียกใน Loop)
+        function autoFire() {
+            const now = Date.now();
+            if (now - lastFireTime > fireRate) {
+                bullets.push({ x: player.x - 25, y: h - combatYOffset, z: 1 });
+                bullets.push({ x: player.x + 25, y: h - combatYOffset, z: 1 });
+                lastFireTime = now;
+            }
         }
 
-        window.onmousedown = () => fire();
-        window.ontouchstart = (e) => { fire(); e.preventDefault(); };
+        // การควบคุม: ลากเพื่อเล็ง
         window.onmousemove = (e) => player.targetX = e.clientX;
         window.ontouchmove = (e) => { player.targetX = e.touches[0].clientX; e.preventDefault(); };
 
@@ -112,8 +106,8 @@
             loop();
         }
 
-        function createExplosion(x, y, color, size = 15) {
-            for(let i=0; i<size; i++) {
+        function createExplosion(x, y, color) {
+            for(let i=0; i<12; i++) {
                 particles.push({
                     x, y, vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12,
                     life: 1, color
@@ -125,12 +119,16 @@
             if(!gameActive) return;
             ctx.fillStyle = '#050510'; ctx.fillRect(0, 0, w, h);
 
+            // Stars
             ctx.fillStyle = "white";
             stars.forEach(s => { s.y += 0.5; if(s.y > h) s.y = 0; ctx.fillRect(s.x, s.y, s.s, s.s); });
 
             drawGrid();
+            autoFire(); // ยิงเอง
+
             player.x += (player.targetX - player.x) * 0.15;
 
+            // Particles
             particles.forEach((p, i) => {
                 p.x += p.vx; p.y += p.vy; p.life -= 0.04;
                 if(p.life <= 0) particles.splice(i, 1);
@@ -139,30 +137,41 @@
             });
             ctx.globalAlpha = 1;
 
+            // Bullets
             bullets.forEach((b, i) => {
-                b.z += 0.15;
+                b.z += 0.18;
                 let scale = 1 / b.z;
                 b.screenX = w/2 + (b.x - w/2) * scale;
                 b.screenY = h/2 + (b.y - h/2) * scale;
                 ctx.fillStyle = "yellow";
-                ctx.shadowBlur = 10; ctx.shadowColor = "yellow";
                 ctx.fillRect(b.screenX-2, b.screenY, 4, 30 * scale);
                 if(b.z > 6) bullets.splice(i, 1);
             });
 
-            if(Math.random() < 0.04) {
+            // Enemy Spawning (Distributed)
+            if(Math.random() < 0.05) {
                 const typeRand = Math.random();
                 let type = 'normal', color = `hsl(${Math.random()*360}, 80%, 60%)`;
-                if (typeRand > 0.85) { type = 'decoy'; color = '#ffffff'; }
+                if (typeRand > 0.88) { type = 'decoy'; color = '#ffffff'; }
                 else if (typeRand > 0.6) { type = 'dodger'; color = '#bc13fe'; }
-                enemies.push({ x: Math.random()*w, y: h - combatYOffset, z: 6, type, color, sinOffset: Math.random()*10 });
+                
+                // กระจายตำแหน่ง x ให้กว้างขึ้น และสุ่มระนาบเล็กน้อย
+                enemies.push({ 
+                    x: Math.random() * (w * 1.4) - (w * 0.2), // กระจายออกนอกขอบจอนิดหน่อย
+                    y: h - combatYOffset, 
+                    z: 6, 
+                    type, color, 
+                    sinOffset: Math.random()*10,
+                    speed: 0.02 + Math.random() * 0.03 
+                });
             }
 
             enemies.forEach((e, ei) => {
-                e.z -= 0.03;
-                if (e.type === 'dodger') e.x += Math.sin(Date.now()*0.005 + e.sinOffset)*5;
+                e.z -= e.speed;
+                if (e.type === 'dodger') e.x += Math.sin(Date.now()*0.005 + e.sinOffset)*8;
+                
                 let scale = 1 / e.z;
-                let ex = w/2 + (e.x-w/2)*scale, ey = h/2 + (e.y-h/2)*scale, es = 40*scale;
+                let ex = w/2 + (e.x-w/2)*scale, ey = h/2 + (e.y-h/2)*scale, es = 45*scale;
 
                 if(e.z > 0.5) {
                     ctx.fillStyle = e.color; ctx.shadowBlur = 15; ctx.shadowColor = e.color;
@@ -170,51 +179,49 @@
                     else { ctx.beginPath(); ctx.arc(ex, ey, es, 0, Math.PI*2); ctx.fill(); }
 
                     bullets.forEach((b, bi) => {
-                        if(Math.hypot(ex-b.screenX, ey-b.screenY) < es+15) {
-                            if(e.type === 'decoy') { score = Math.max(0, score-1); createExplosion(ex, ey, "#f00", 30); }
+                        if(Math.hypot(ex-b.screenX, ey-b.screenY) < es+20) {
+                            if(e.type === 'decoy') { score = Math.max(0, score-1); createExplosion(ex, ey, "#f00"); }
                             else { score++; createExplosion(ex, ey, e.color); }
                             enemies.splice(ei, 1); bullets.splice(bi, 1);
                             document.getElementById('score').innerText = score;
-                            if(score >= 10) win();
+                            if(score >= 20) win(); // เป้าหมาย 20 แต้ม
                         }
                     });
                 } else enemies.splice(ei, 1);
             });
 
+            // Player Ship
             ctx.shadowBlur = 20; ctx.shadowColor = "#00f2ff"; ctx.fillStyle = "#00f2ff";
             ctx.save(); ctx.translate(player.x, player.y);
-            ctx.rotate((player.targetX - player.x) * 0.01);
-            ctx.beginPath(); ctx.moveTo(0, -30); ctx.lineTo(-40, 25); ctx.lineTo(40, 25); ctx.closePath(); ctx.fill();
+            ctx.rotate((player.targetX - player.x) * 0.02);
+            ctx.beginPath(); ctx.moveTo(0, -35); ctx.lineTo(-45, 25); ctx.lineTo(45, 25); ctx.closePath(); ctx.fill();
             ctx.restore();
+            ctx.shadowBlur = 0;
+
             requestAnimationFrame(loop);
         }
 
         function drawGrid() {
-            ctx.strokeStyle = "rgba(0, 242, 255, 0.15)";
-            gridOffset += 4; if(gridOffset > 40) gridOffset = 0;
+            ctx.strokeStyle = "rgba(0, 242, 255, 0.12)";
+            gridOffset += 5; if(gridOffset > 40) gridOffset = 0;
             for(let i=0; i<20; i++) {
                 let y = h/2 + (i*40) + gridOffset;
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
             }
-            for(let i=-10; i<=10; i++) {
-                ctx.beginPath(); ctx.moveTo(w/2, h/2); ctx.lineTo(w/2 + (i*400), h); ctx.stroke();
+            for(let i=-12; i<=12; i++) {
+                ctx.beginPath(); ctx.moveTo(w/2, h/2); ctx.lineTo(w/2 + (i*450), h); ctx.stroke();
             }
         }
 
-        function win() { 
-            gameActive = false; 
-            document.getElementById('ui-math').classList.remove('hidden'); 
-        }
+        function win() { gameActive = false; document.getElementById('ui-math').classList.remove('hidden'); }
 
-        // --- Math & Solution Logic ---
+        // Math Logic
         function genMath() {
             const A = parseFloat(document.getElementById('A').value), n = parseInt(document.getElementById('n').value);
             solutions = Array.from({length:n}, (_,k)=> Math.round(((A+(360/n)*k)%360)*100)/100).sort((a,b)=>a-b);
-            
-            wrongAttempts = 0; // Reset เมื่อสร้างโจทย์ใหม่
-            updateWrongUI();
-            
-            document.getElementById('math-inputs').innerHTML = solutions.map((_,i)=>`<div>Root ${i+1}: <input id="m${i}" type="number" step="any"> °</div>`).join('');
+            wrongAttempts = 0;
+            document.getElementById('wrong-count').innerText = 0;
+            document.getElementById('math-inputs').innerHTML = solutions.map((_,i)=>`<div style="margin:10px">Root ${i+1}: <input id="m${i}" type="number" step="any"> °</div>`).join('');
             document.getElementById('math-actions').classList.remove('hidden');
             document.getElementById('btn-reveal').classList.add('hidden');
             document.getElementById('solution-display').classList.add('hidden');
@@ -224,24 +231,15 @@
         function checkMath() {
             const n = solutions.length;
             let pAns = Array.from({length:n}, (_,i)=> parseFloat(document.getElementById('m'+i).value)).sort((a,b)=>a-b);
-            let isWin = pAns.every((v,i)=> Math.abs(v - solutions[i]) < 0.5);
-            
-            if (isWin) {
-                document.getElementById('math-res').innerHTML = "<span style='color:#00ff88'>ACCESS GRANTED: SYSTEM SECURED</span>";
-                document.getElementById('btn-reveal').classList.add('hidden');
+            let ok = pAns.every((v,i)=> Math.abs(v - solutions[i]) < 0.5);
+            if(ok) {
+                document.getElementById('math-res').innerHTML = "<span style='color:#00ff88'>ACCESS GRANTED!</span>";
             } else {
                 wrongAttempts++;
-                updateWrongUI();
-                document.getElementById('math-res').innerHTML = "<span style='color:#ff007a'>ERROR: INVALID CODE</span>";
-                
-                if (wrongAttempts >= 3) {
-                    document.getElementById('btn-reveal').classList.remove('hidden');
-                }
+                document.getElementById('wrong-count').innerText = wrongAttempts;
+                document.getElementById('math-res').innerHTML = "<span style='color:#ff007a'>INVALID KEY</span>";
+                if(wrongAttempts >= 3) document.getElementById('btn-reveal').classList.remove('hidden');
             }
-        }
-
-        function updateWrongUI() {
-            document.getElementById('wrong-count').innerText = wrongAttempts;
         }
 
         function showSolution() {
